@@ -23,7 +23,7 @@ resource "openstack_networking_port_v2" "talos-workers" {
 
 resource "openstack_compute_instance_v2" "talos-controlplane" {
     name      = "talos-controlplane"
-    image_id  = "3a0d365b-bceb-4607-ad29-1921089ae44f"
+    image_id  = openstack_images_image_v2.talos_image.id
     flavor_id = data.openstack_compute_flavor_v2.s1-small.id
     # user_data = yamlencode(data.talos_machine_configuration.controlplane)
 
@@ -35,7 +35,8 @@ resource "openstack_compute_instance_v2" "talos-controlplane" {
 resource "openstack_compute_instance_v2" "talos-workers" {
     count     = 2
     name      = "talos-worker-${count.index}"
-    image_id  = "3a0d365b-bceb-4607-ad29-1921089ae44f"
+    image_id  = openstack_images_image_v2.talos_image.id
+
     flavor_id = data.openstack_compute_flavor_v2.s1-small.id
     #user_data = yamlencode(data.talos_machine_configuration.controlplane)
 
